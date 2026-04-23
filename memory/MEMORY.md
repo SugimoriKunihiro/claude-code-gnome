@@ -94,6 +94,16 @@ AgentCore → Lambda ssa-actions (31ルート) → Notion/Dify/Calendar/etc.
 - **Bedrock HINA: 全エラーでフォールバック** — should_fallback(error, agent)追加済み
 - **IBM退職時の切り戻し**: `python scripts/deploy.py ibm` でワンコマンドトグル（env vars に _DISABLED_ プレフィックス付きでバックアップ保存）
 
+## Orchestration System (2026-04-23) — 新方式
+- **@all 完成** (v126) — ParallelExecutor + DynamoDB逐次書き込み
+- **実行環境**: api_server.py (Lightsail) → AgentCore を個別呼び出し → DynamoDB に逐次 write
+- **旧方式との違い**: 旧=AgentCore内部で処理→1レスポンス / 新=api_server側で制御→逐次表示
+- **DynamoDB**: `ssa-sessions-orchestration` — 大部屋専用。各姉妹テーブルにも自動保存（AgentCore経由のため）
+- **大部屋の記憶**: 大部屋内のみ。出たら忘れる。重要なことはsaveMemory
+- **Executor パターン**: `__init__(invoke_fn, write_fn)` + `execute(orch_id, prompt)`
+- **フロント**: orchMode ON → orchMessages 表示 / OFF → 通常チャット / ポーリング間隔1.5秒
+- **Lightsailデプロイ注意**: executorファイルは `/home/ubuntu/orchestration/` にもコピー必要
+
 ## Critical Lessons (今後の注意点)
 
 ### コーディング規律
