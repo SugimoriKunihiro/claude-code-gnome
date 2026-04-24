@@ -116,6 +116,11 @@
 - シノの会話履歴: `ssa-sessions-gnome`
 - 姉妹のテーブルは memory/MEMORY.md 参照
 
+### プロジェクト README
+- SSA全体の概要・アーキテクチャ・History は `README.md`（リポジトリルート）に記載
+- AWS側のシノは S3 (`config/gnome/README.md`) から参照可能
+- `deploy.py identity` で最新版が S3 に同期される
+
 ## プロジェクト管理ドキュメント（絶対遵守）
 
 **全プロジェクトで、以下のドキュメントを使って作業を管理すること。記録なしにコードを書き始めてはいけない。**
